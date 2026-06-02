@@ -91,11 +91,30 @@ def _build_generator_matrix(poly, m):
                 G[j, k] = int(alpha[r + k])
     return G
 
+def generate_best_niederreiter_polys(b, s):
+    assert is_prime_power(b), "b must be a prime power"
+    pi_list = []
+    
+    degree = 1
+    while len(pi_list) < s:
+        all_irred = list(galois.irreducible_polys(b, degree))
+        all_irred = sorted(all_irred, key=lambda p: tuple(p.coeffs))
+        
+        for p in all_irred:
+            if list(p.coeffs) == [1, 0]:
+                continue
+                
+            pi_list.append(p)
+            if len(pi_list) == s:
+                break
+        
+        degree += 1
+        
+    return pi_list
+
 def generate_generator_matrices(b, t, m, s, verbose=False):
-    e = _e_param(t, m, s)
-    assert e is not None, "Wrong params: t, m, s"
     assert t <= m, "t must be less or equal m"
-    pi_list = _generate_excellent_poly(b, e, s)
+    pi_list = generate_best_niederreiter_polys(b, s)
     if verbose:
         print("list of polys:", pi_list)
     matrices = []
