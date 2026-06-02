@@ -4,6 +4,8 @@ import numpy as np
 import galois
 from itertools import product
 
+from functools import partial
+
 # Utility functions for generating Niederreiter matrices using galois
 def is_prime(n):
     if n < 2: return False
@@ -131,7 +133,7 @@ def random_invertible_matrix(n, q):
             return A
 
 # JAX accelerated parts
-@jax.jit
+@partial(jax.jit, static_argnums=(0, 1, 2))
 def _get_points_jax_prime(b: int, m: int, s: int, G: jnp.ndarray):
     """
     Computes (G @ vecs) % b for prime bases using JAX, and converts to fractions.
