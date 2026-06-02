@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jax-lds"
+version = "0.1.0"
+description = "High-performance (t, m, s)-nets generation using JAX"
+authors = [
+    {name = "User"}
+]
+dependencies = [
+    "jax",
+    "jaxlib",
+    "numpy",
+    "galois",
+    "pandas",
+    "seaborn",
+    "matplotlib",
+    "plotly"
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = ["pytest"]
